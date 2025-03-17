@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     this.updateDisplay();
   };
   Calculator.prototype.calculateResult = function () {
-    this.outputDisplay.value = '';
+    this.outputDisplay.value = this.calculate(this.currentInput);
     this.currentInput = ''; //계산후 input값은 비워둠
   };
 
