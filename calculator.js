@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (this.currentInput === '') return; //입력값이 없는 상태일 때 연산자 입력시 함수 종료
     }
     this.currentInput += value;
-    this.updateDisplay();
+    this.updateDisplay(); //값 추가시 추가된 input 업데이트 메서드
   };
 
   Calculator.prototype.updateDisplay = function () {
@@ -52,7 +52,55 @@ document.addEventListener('DOMContentLoaded', function () {
         break;
     }
   };
+  Calculator.prototype.calculate = function (expression) {
+    let operators = new Set(['+', '-', '*', '/', '%']);
+    let tokens = [];
+    let numberBuffer = '';
 
+    for (let char of expression) {
+      if (operators.has(char)) {
+        //연산자가 포함되어 있는 경우
+        if (numberBuffer) tokens.push(numberBuffer);
+        tokens.push(char);
+        numberBuffer = '';
+      } else {
+        numberBuffer += char;
+      }
+    }
+    if (numberBuffer) tokens.push(numberBuffer);
+    let result = parseFloat(tokens[0]); //parseFlaot은 소숫점연산도 처리하기 위함
+    for (let i = 1; i < tokens.length; i += 2) {
+      let operator = tokens[i]; //연산자는 홀수 인덱스에 위치
+      let nextNumber = parseFloat(tokens[i + 1]);
+
+      switch (operator) {
+        case '+':
+          result += nextNumber;
+          break;
+        case '-':
+          result -= nextNumber;
+          break;
+        case '*':
+          result *= nextNumber;
+          break;
+        case '/':
+          if (nextNumber === 0)
+            //0으로는 나눌 수 없으므로 에러 처리
+            return 'Error';
+          result /= nextNumber;
+          break;
+        case '%':
+          if (nextNumber === 0)
+            //0으로 나눌 수 없으므로 에러 처리
+            return 'Error';
+          result %= nextNumber;
+          break;
+        default:
+          return 'Error';
+      }
+    }
+    return result;
+  };
   const calculate = new Calculator(); //생성자를 통한 초기화
   calculate.init();
 });
