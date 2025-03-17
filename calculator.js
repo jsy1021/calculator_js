@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     this.currentInput = '';
     this.inputDisplay = document.getElementById('input_display');
     this.outputDisplay = document.getElementById('output_display');
+    this.lastInputIsOperator = false; // 기본값 false;
   }
 
   Calculator.prototype.init = function () {
@@ -18,18 +19,23 @@ document.addEventListener('DOMContentLoaded', function () {
   Calculator.prototype.clear = function () {
     this.currentInput = ''; //입력값 초기화
     this.outputDisplay.value = '';
+    this.lastInputIsOperator = false;
     this.updateDisplay();
   };
   Calculator.prototype.calculateResult = function () {
     this.outputDisplay.value = this.calculate(this.currentInput);
     this.currentInput = ''; //계산후 input값은 비워둠
+    this.lastInputIsOperator = false;
   };
 
   Calculator.prototype.appendInput = function (value) {
     //input값 입력추가 메서드
     let operator = new Set(['+', '-', '*', '/', '%']); //연산자 종류 set
     if (operator.has(value)) {
-      if (this.currentInput === '') return; //입력값이 없는 상태일 때 연산자 입력시 함수 종료
+      if (this.currentInput === '' || this.lastInputIsOperator == true) return; //입력값이 없는 상태일 때 연산자 입력시 함수 종료
+      this.lastInputIsOperator = true;
+    } else {
+      this.lastInputIsOperator = false;
     }
     this.currentInput += value;
     this.updateDisplay(); //값 추가시 추가된 input 업데이트 메서드
