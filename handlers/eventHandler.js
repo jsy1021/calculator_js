@@ -1,5 +1,5 @@
 export function setupCalculator(calculator) {
-  // ✅ eventHandler 객체를 생성하지 않음
+  //eventHandler 객체를 생성하지 않음
   function handleButtonClick(value) {
     switch (value) {
       case 'AC':

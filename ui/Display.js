@@ -1,4 +1,5 @@
 export class Display {
+  //화면 출력만 담당하도록 분리
   constructor() {
     this.inputDisplay = document.getElementById('input_display');
     this.outputDisplay = document.getElementById('output_display');

@@ -35,6 +35,7 @@ export class Calculator {
   }
 
   calculate(expression) {
+    //연산
     let operators = new Set(['+', '-', '*', '/', '%']);
     let tokens = [];
     let numberBuffer = '';
